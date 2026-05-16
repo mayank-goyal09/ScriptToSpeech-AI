@@ -1,3 +1,14 @@
+---
+title: Voice Story Engine
+emoji: 🔥
+colorFrom: orange
+colorTo: yellow
+sdk: gradio
+sdk_version: 5.16.0
+app_file: app.py
+pinned: false
+---
+
 # 🔥 Voice Story Engine
 
 **Type your imagination. Hear it come alive.**
