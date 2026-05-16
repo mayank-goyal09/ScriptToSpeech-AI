@@ -22,12 +22,34 @@ except Exception as e:
     print(f"[ERROR] Error initializing engines: {e}")
 
 def process_story(keywords, genre, voice):
-    if not story_engine or not narrator_engine:
-        return "System Error: Engines not initialized. Check your API Key in .env", None
+    print(f"[INFO] Processing request: keywords='{keywords}', genre='{genre}', voice='{voice}'")
+    try:
+        if not story_engine or not narrator_engine:
+            return "System Error: Engines not initialized. Check your API Key.", None
 
-    story = story_engine.generate_story(keywords, genre)
-    audio_path = narrator_engine.generate_audio_file(story, voice)
-    return story, audio_path
+        # 1. Generate Story
+        print("[INFO] Generating story...")
+        story = story_engine.generate_story(keywords, genre)
+        
+        if "Error generating story" in story:
+            print(f"[ERROR] {story}")
+            return story, None
+
+        # 2. Generate Audio
+        print("[INFO] Generating audio...")
+        audio_path = narrator_engine.generate_audio_file(story, voice)
+        
+        if not audio_path:
+            print("[ERROR] Audio generation failed.")
+            return story, "Error: Audio narration could not be generated."
+
+        print("[SUCCESS] Processing complete!")
+        return story, audio_path
+        
+    except Exception as e:
+        error_msg = f"Unexpected System Error: {str(e)}"
+        print(f"[CRITICAL] {error_msg}")
+        return error_msg, None
 
 # ============================================================
 #  🔥 ANIMATED ORANGE THEME - Custom Built CSS
