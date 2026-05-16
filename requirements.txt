@@ -1,0 +1,6 @@
+edge-tts
+google-generativeai
+python-dotenv
+gradio
+pydub
+torch
