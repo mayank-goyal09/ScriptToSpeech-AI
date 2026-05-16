@@ -386,4 +386,4 @@ with gr.Blocks(title="Voice Story Engine") as app:
     )
 
 if __name__ == "__main__":
-    app.launch(share=False)
+    app.launch()
