@@ -1,7 +1,7 @@
 ---
 title: Voice Story Engine
 emoji: 🔥
-colorFrom: orange
+colorFrom: red
 colorTo: yellow
 sdk: gradio
 sdk_version: 5.16.0
