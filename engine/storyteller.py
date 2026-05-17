@@ -60,6 +60,7 @@ class StoryTeller:
                 raise ValueError("Empty response received from HF model")
             except Exception as e:
                 print(f"[WARNING] HF Generation failed: {e}. Trying Gemini fallback...")
+                last_error = f"HF Error: {str(e)}"
                 
         # Gemini Fallback / Primary if HF disabled
         if self.gemini_available:
@@ -69,4 +70,4 @@ class StoryTeller:
             except Exception as e:
                 return f"Error generating story: {e}"
         else:
-            return "Error: Generation failed. The free Hugging Face model rate limit was reached, and no Gemini API Key was found as a fallback."
+            return f"Error: Generation failed.\n\nDetail: {last_error}\n\n(No Gemini API Key was found as a fallback)"
