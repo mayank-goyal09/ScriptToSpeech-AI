@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+env/
+
+# Environment variables
+.env
+
+# Project specific
+output/
+assets/
+.gradio/
+error_log.txt
+scratch/
+
+# OS specific
+.DS_Store
+Thumbs.db
