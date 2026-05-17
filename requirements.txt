@@ -1,5 +1,5 @@
 edge-tts
 google-generativeai
 python-dotenv
-gradio
+gradio==5.16.0
 pydub

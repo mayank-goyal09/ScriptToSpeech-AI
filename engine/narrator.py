@@ -1,4 +1,5 @@
 import asyncio
+import threading
 import edge_tts
 from pydub import AudioSegment
 import os
@@ -16,9 +17,21 @@ class Narrator:
         # Ensure output directory exists
         os.makedirs(os.path.dirname(self.output_file), exist_ok=True)
         
-        # Run the async function synchronously
+        # Run async TTS in a separate thread to avoid conflicts
+        # with Gradio's own event loop (asyncio.run() crashes otherwise)
         try:
-            asyncio.run(self._generate_async(text, voice))
+            result = [None]
+            def run_in_thread():
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+                try:
+                    loop.run_until_complete(self._generate_async(text, voice))
+                finally:
+                    loop.close()
+            
+            t = threading.Thread(target=run_in_thread)
+            t.start()
+            t.join()
             return self.output_file
         except Exception as e:
             print(f"Error generating audio: {e}")
