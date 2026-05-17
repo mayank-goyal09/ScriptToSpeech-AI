@@ -16,4 +16,4 @@ jobs:
       - name: Push to hub
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: git push https://mayankg09:$HF_TOKEN@huggingface.co/spaces/mayankg09/Voice-Story-Engine main
+        run: git push --force https://mayankg09:$HF_TOKEN@huggingface.co/spaces/mayankg09/Voice-Story-Engine main
