@@ -11,8 +11,6 @@ GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 # Initialize Engines
 print("[INFO] Starting engine initialization...")
 try:
-    if not GOOGLE_API_KEY:
-        raise ValueError("GOOGLE_API_KEY not found in .env file.")
     story_engine = StoryTeller()
     narrator_engine = Narrator()
     print("[SUCCESS] All engines initialized successfully!")
