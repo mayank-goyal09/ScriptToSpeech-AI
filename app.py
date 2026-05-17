@@ -370,7 +370,8 @@ with gr.Blocks(title="Voice Story Engine") as app:
             genre_input = gr.Dropdown(
                 choices=["Sci-Fi", "Horror", "Fantasy", "Comedy", "Mystery", "Romance", "Thriller", "Adventure"],
                 label="Genre",
-                value="Sci-Fi"
+                value="Sci-Fi",
+                filterable=False
             )
             voice_input = gr.Dropdown(
                 choices=[
@@ -382,7 +383,8 @@ with gr.Blocks(title="Voice Story Engine") as app:
                     "en-AU-NatashaNeural"
                 ],
                 label="Voice",
-                value="en-US-AriaNeural"
+                value="en-US-AriaNeural",
+                filterable=False
             )
             generate_btn = gr.Button("🔥 Generate Story & Audio", variant="primary")
         
