@@ -13,14 +13,14 @@ pinned: false
 
 **Type your imagination. Hear it come alive.**
 
-Voice Story Engine is a high-performance AI application that generates creative short stories based on your keywords and narrates them using ultra-realistic neural voices. Powered by **Gemini 2.0 Flash** and **Edge TTS**, it offers a lightning-fast experience with zero GPU requirements.
+Voice Story Engine is a high-performance AI application that generates creative short stories based on your keywords and narrates them using ultra-realistic neural voices. It features a smart **Dual-Engine Hybrid Architecture** designed to run 100% free with high rate limits on Hugging Face Spaces using serverless LLMs, while providing seamless local developer fallback to Google Gemini.
 
 ---
 
 ## 🚀 Features
 
-- **AI-Powered Storytelling**: Leverages Google's latest Gemini 2.0 Flash model for creative and engaging short stories.
-- **Ultra-Realistic Narration**: Uses Microsoft's Edge TTS technology for high-quality, human-like voice synthesis.
+- **Dual-Engine Storyteller**: Uses Hugging Face's Free Serverless Inference (`Qwen 2.5 72B`) on remote deployments to avoid IP rate-limiting, and automatically falls back to **Gemini 2.0 Flash** for local development.
+- **Ultra-Realistic Narration**: Uses Microsoft's Edge TTS technology for high-quality, human-like voice synthesis with custom isolated thread-safe loops.
 - **Customizable Experience**: Choose from multiple genres (Sci-Fi, Horror, Fantasy, etc.) and a variety of global neural voices.
 - **Stunning UI**: Features a custom-built, animated "Fire" theme with glassmorphism aesthetics.
 - **Zero-GPU Required**: Runs efficiently on standard CPUs, making it accessible to everyone.
@@ -28,9 +28,10 @@ Voice Story Engine is a high-performance AI application that generates creative 
 ## 🛠️ Tech Stack
 
 - **Core**: Python 3.13
-- **AI Model**: Google Gemini 2.0 Flash
+- **Primary AI Engine (Spaces)**: Qwen 2.5 72B Instruct via HF Serverless Inference Client
+- **Local Fallback Engine**: Google Gemini 2.0 Flash (`google-generativeai`)
 - **Voice Synthesis**: Edge TTS (Microsoft Neural)
-- **Framework**: Gradio
+- **Framework**: Gradio 5.29.0
 - **Audio Processing**: Pydub
 
 ## 📦 Installation
@@ -46,12 +47,14 @@ Voice Story Engine is a high-performance AI application that generates creative 
    pip install -r requirements.txt
    ```
 
-3. **Set up your API Key**:
-   Create a `.env` file in the root directory and add your Google Gemini API Key:
-   ```env
-   GOOGLE_API_KEY=your_actual_api_key_here
-   ```
-   *Alternatively, run `python setup_gemini.py` and follow the prompts.*
+3. **Configure Environment Keys**:
+   * **For Local Execution (Gemini Fallback)**:
+     Create a `.env` file in the root directory and add your Google Gemini API Key:
+     ```env
+     GOOGLE_API_KEY=your_actual_api_key_here
+     ```
+   * **For Remote Deployments (Hugging Face Spaces)**:
+     Add a repository secret named `HF_TOKEN` under your Space's Settings page. This gives the app a dedicated, zero-cost quota to query Hugging Face's high-performance serverless endpoints without encountering shared IP rate blocks.
 
 ## 🎮 Usage
 
@@ -65,10 +68,10 @@ Open the provided local URL (default: `http://127.0.0.1:7860`) in your browser t
 
 ## 📂 Project Structure
 
-- `app.py`: Main Gradio interface and application logic.
+- `app.py`: Main Gradio interface, responsive glassmorphic styles, and thread-safe async callbacks.
 - `engine/`:
-  - `storyteller.py`: Integration with Gemini API for story generation.
-  - `narrator.py`: Integration with Edge TTS for audio narration.
+  - `storyteller.py`: Hybrid client checking for `HF_TOKEN` and querying serverless LLMs with standard Gemini fallback.
+  - `narrator.py`: Multi-threaded asynchronous worker for generating Edge TTS audio safely inside active event loops.
 - `.env`: (Ignored) Stores your private API keys.
 - `requirements.txt`: List of necessary Python packages.
 
